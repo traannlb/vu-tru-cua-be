@@ -2,70 +2,80 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Vũ Trụ Của Bé - Nền Sao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vũ Trụ Của Bé</title>
     <style>
-        /* 1. Thiết lập khung hình toàn màn hình */
+        /* 1. Nền không gian sâu thẳm */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Không cho cuộn trang */
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); /* Nền xanh đen sâu thẳm */
+            background: #020205; /* Màu đen vũ trụ */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* 2. Tạo lớp chứa các ngôi sao */
-        #stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* 3. Hiệu ứng lấp lánh cho sao (Animation) */
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { opacity: 0.3; }
-        }
-
-        .star {
-            position: absolute;
+        /* 2. Tạo hiệu ứng sao bằng box-shadow (Không cần JavaScript) */
+        .stars-static {
+            width: 2px;
+            height: 2px;
             background: white;
             border-radius: 50%;
+            /* Tạo ra nhiều điểm trắng ở các vị trí ngẫu nhiên */
+            box-shadow: 
+                20vw 10vh white, 80vw 20vh white, 40vw 50vh #FFF, 
+                15vw 85vh white, 90vw 70vh white, 60vw 15vh #EEE,
+                30vw 30vh white, 75vw 90vh white, 50vw 10vh #FFF,
+                10vw 40vh white, 85vw 55vh white, 5vw 20vh white,
+                95vw 10vh white, 45vw 95vh white, 70vw 40vh white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        /* Thêm một lớp sao nhỏ hơn để tạo chiều sâu */
+        .stars-small {
+            width: 1px;
+            height: 1px;
+            background: white;
+            box-shadow: 
+                10vw 15vh white, 30vw 45vh white, 70vw 65vh white, 
+                25vw 80vh white, 55vw 5vh white, 85vw 35vh white,
+                12vw 92vh white, 92vw 88vh white, 33vw 12vh white;
+            position: absolute;
+            top: 0; left: 0;
             opacity: 0.5;
-            animation: twinkle var(--duration) infinite ease-in-out;
+            animation: twinkle 5s infinite reverse;
+        }
+
+        /* 3. Hiệu ứng lấp lánh */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 4. Trái Đất tạm thời để bạn thấy vị trí trung tâm */
+        .earth-placeholder {
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <div id="stars-container"></div>
+    <div class="stars-static"></div>
+    <div class="stars-small"></div>
 
-    <script>
-        // 4. Script nhỏ để rải sao ngẫu nhiên
-        const container = document.getElementById('stars-container');
-        const starCount = 150; // Số lượng ngôi sao
+    <div class="earth-placeholder">
+        <h1 style="font-size: 24px;">VŨ TRỤ CỦA BÉ</h1>
+        <p>🌍<br>(Đang chờ Trái Đất xuất hiện...)</p>
+    </div>
 
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            
-            // Kích thước ngẫu nhiên từ 1px đến 3px
-            const size = Math.random() * 3 + 'px';
-            star.style.width = size;
-            star.style.height = size;
-            
-            // Vị trí ngẫu nhiên
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
-            
-            // Thời gian lấp lánh khác nhau cho tự nhiên
-            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-            
-            container.appendChild(star);
-        }
-    </script>
 </body>
 </html>
