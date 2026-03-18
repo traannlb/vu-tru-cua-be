@@ -1,246 +1,71 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Vũ Trụ Của Bé</title>
+    <meta charset="UTF-8">
+    <title>Vũ Trụ Của Bé - Nền Sao</title>
+    <style>
+        /* 1. Thiết lập khung hình toàn màn hình */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Không cho cuộn trang */
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); /* Nền xanh đen sâu thẳm */
+        }
 
-<style>
-body {
-  margin: 0;
-  background: black;
-  overflow: hidden;
-  font-family: Arial;
-}
+        /* 2. Tạo lớp chứa các ngôi sao */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-/* 🌌 SPACE */
-.space {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-}
+        /* 3. Hiệu ứng lấp lánh cho sao (Animation) */
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
 
-/* ⭐ STAR ANIMATION */
-.stars {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.stars::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  animation: twinkle 2s infinite alternate;
-  box-shadow:
-    100px 200px white,
-    300px 400px white,
-    500px 150px white,
-    700px 350px white,
-    900px 250px white,
-    1100px 300px white,
-    1300px 200px white;
-}
-
-@keyframes twinkle {
-  from { opacity: 0.3; }
-  to { opacity: 1; }
-}
-
-/* 🌍 EARTH */
-.earth {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 230px;
-  height: 230px;
-  background: url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg') no-repeat center/cover;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  animation: rotateEarth 20s linear infinite;
-  transition: all 1s ease;
-}
-
-@keyframes rotateEarth {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* shrink */
-.earth.shrink {
-  transform: translate(-50%, 260px) scale(0.3);
-  animation: none;
-}
-
-/* TITLE */
-.title {
-  color: white;
-  font-size: 22px;
-  background: rgba(0,0,0,0.5);
-  padding: 8px 12px;
-  border-radius: 10px;
-}
-
-/* ☀️ SOLAR SYSTEM */
-.solar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* SUN */
-.sun {
-  font-size: 60px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* ORBIT */
-.orbit {
-  position: absolute;
-  border: 1px dashed rgba(255,255,255,0.2);
-  border-radius: 50%;
-}
-
-/* PLANET */
-.planet {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  font-size: 25px;
-}
-
-/* ORBIT ANIMATION */
-.orbit1 { width: 150px; height: 150px; animation: spin 8s linear infinite; }
-.orbit2 { width: 220px; height: 220px; animation: spin 12s linear infinite; }
-.orbit3 { width: 300px; height: 300px; animation: spin 16s linear infinite; }
-.orbit4 { width: 380px; height: 380px; animation: spin 20s linear infinite; }
-
-@keyframes spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* POPUP */
-#popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-}
-
-.content {
-  background: #222;
-  color: white;
-  padding: 20px;
-  margin: 120px auto;
-  width: 300px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.hiddenPopup {
-  display: none;
-}
-</style>
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="space">
-  <div class="stars"></div>
+    <div id="stars-container"></div>
 
-  <!-- 🌍 EARTH -->
-  <div id="earth" class="earth" onclick="enterSolar()">
-    <div class="title">Vũ Trụ Của Bé</div>
-  </div>
+    <script>
+        // 4. Script nhỏ để rải sao ngẫu nhiên
+        const container = document.getElementById('stars-container');
+        const starCount = 150; // Số lượng ngôi sao
 
-  <!-- ☀️ SOLAR -->
-  <div id="solarSystem" class="solar hidden">
-
-    <div class="sun">☀</div>
-
-    <div class="orbit orbit1">
-      <div class="planet" onclick="showPlanet('mercury')">☿</div>
-    </div>
-
-    <div class="orbit orbit2">
-      <div class="planet" onclick="showPlanet('venus')">♀</div>
-    </div>
-
-    <div class="orbit orbit3">
-      <div class="planet" onclick="showPlanet('earth')">🌍</div>
-    </div>
-
-    <div class="orbit orbit4">
-      <div class="planet" onclick="showPlanet('mars')">♂</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- POPUP -->
-<div id="popup" class="hiddenPopup">
-  <div class="content">
-    <h2 id="planetName"></h2>
-    <p id="planetInfo"></p>
-    <button onclick="closePopup()">Đóng</button>
-  </div>
-</div>
-
-<audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-09.mp3"></audio>
-
-<script>
-const data = {
-  mercury: { name: "Sao Thủy", info: "Gần Mặt Trời nhất." },
-  venus: { name: "Sao Kim", info: "Nóng nhất." },
-  earth: { name: "Trái Đất", info: "Nhà của chúng ta." },
-  mars: { name: "Sao Hỏa", info: "Hành tinh đỏ." }
-};
-
-function enterSolar() {
-  document.getElementById("clickSound").play();
-
-  const earth = document.getElementById("earth");
-  const solar = document.getElementById("solarSystem");
-
-  earth.classList.add("shrink");
-
-  setTimeout(() => {
-    solar.classList.remove("hidden");
-  }, 800);
-}
-
-function showPlanet(key) {
-  document.getElementById("clickSound").play();
-
-  document.getElementById("planetName").innerText = data[key].name;
-  document.getElementById("planetInfo").innerText = data[key].info;
-
-  document.getElementById("popup").classList.remove("hiddenPopup");
-}
-
-function closePopup() {
-  document.getElementById("popup").classList.add("hiddenPopup");
-}
-</script>
-
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            // Kích thước ngẫu nhiên từ 1px đến 3px
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            
+            // Vị trí ngẫu nhiên
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            
+            // Thời gian lấp lánh khác nhau cho tự nhiên
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            
+            container.appendChild(star);
+        }
+    </script>
 </body>
-        </html>
+</html>
