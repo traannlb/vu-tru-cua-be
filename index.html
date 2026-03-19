@@ -5,119 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vũ Trụ Của Bé</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
-
 <style>
 body {
-    margin: 0;
-    overflow: hidden;
-    background: radial-gradient(circle at center, #000010, #000000);
-    font-family: 'Baloo 2', cursive;
-    color: white;
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: Arial;
 }
 
 /* ⭐ sao */
 .star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    animation: blink 2s infinite;
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: blink 2s infinite;
 }
-@keyframes blink { 50% {opacity:0.2;} }
+@keyframes blink {50%{opacity:0.2;}}
 
-/* 🌍 Trái Đất ban đầu */
+/* 🌍 Trái Đất */
 .earth {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #4fd1ff, #003366);
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    z-index: 3;
-    transition: 1s;
-}
-
-.title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 32px;
-    z-index: 4;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #4fd1ff, #003366);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: 1.2s ease;
+  z-index: 5;
 }
 
 /* ☀️ Mặt Trời */
 .sun {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, #ffcc00, #ff6600);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffcc00, #ff6600);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: 1s;
 }
 
-/* 🪐 orbit */
+/* orbit */
 .orbit {
-    position: absolute;
-    border: 1px dashed rgba(255,255,255,0.2);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  border: 1px dashed rgba(255,255,255,0.2);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* 🪐 planet */
-.planet {
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    cursor: pointer;
+/* orbit Earth */
+.orbit-earth {
+  width: 260px;
+  height: 260px;
+  animation: spin 10s linear infinite;
 }
-
-/* animation quay */
-.orbit1 { width:150px; height:150px; animation: spin 6s linear infinite; }
-.orbit2 { width:200px; height:200px; animation: spin 8s linear infinite; }
-.orbit3 { width:260px; height:260px; animation: spin 10s linear infinite; }
-.orbit4 { width:320px; height:320px; animation: spin 12s linear infinite; }
-.orbit5 { width:380px; height:380px; animation: spin 14s linear infinite; }
-.orbit6 { width:440px; height:440px; animation: spin 16s linear infinite; }
-.orbit7 { width:500px; height:500px; animation: spin 18s linear infinite; }
-.orbit8 { width:560px; height:560px; animation: spin 20s linear infinite; }
 
 @keyframes spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* khi vào space */
+/* 🌍 khi thành hành tinh */
 .space-mode .earth {
-    transform: translate(200px, -100px) scale(0.3);
+  width: 14px;
+  height: 14px;
+  top: 50%;
+  left: calc(50% + 130px); /* nằm trên quỹ đạo */
+  transform: translate(-50%, -50%);
+  box-shadow: none;
 }
-.space-mode .title { opacity: 0; }
-.space-mode .sun { opacity: 1; }
 
-/* popup */
-.popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
+/* bật hệ mặt trời */
+.space-mode .sun {
+  opacity: 1;
 }
-.popup-box {
-    background: #111;
-    padding: 20px;
-    border-radius: 10px;
+
+/* tiêu đề */
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 28px;
+  z-index: 6;
+  transition: 1s;
+}
+
+.space-mode .title {
+  opacity: 0;
 }
 </style>
 </head>
@@ -129,47 +114,29 @@ body {
 
 <div class="sun"></div>
 
-<!-- 🪐 Hệ Mặt Trời -->
-<div class="orbit orbit1"><div class="planet" style="width:8px;height:8px;background:gray;" onclick="show('Sao Thủy')"></div></div>
-<div class="orbit orbit2"><div class="planet" style="width:12px;height:12px;background:#eccc9a;" onclick="show('Sao Kim')"></div></div>
-<div class="orbit orbit3"><div class="planet" style="width:14px;height:14px;background:#4fd1ff;" onclick="show('Trái Đất')"></div></div>
-<div class="orbit orbit4"><div class="planet" style="width:10px;height:10px;background:red;" onclick="show('Sao Hỏa')"></div></div>
-<div class="orbit orbit5"><div class="planet" style="width:24px;height:24px;background:orange;" onclick="show('Sao Mộc')"></div></div>
-<div class="orbit orbit6"><div class="planet" style="width:22px;height:22px;background:#d2b48c;" onclick="show('Sao Thổ')"></div></div>
-<div class="orbit orbit7"><div class="planet" style="width:18px;height:18px;background:#66ccff;" onclick="show('Sao Thiên Vương')"></div></div>
-<div class="orbit orbit8"><div class="planet" style="width:18px;height:18px;background:#3366ff;" onclick="show('Sao Hải Vương')"></div></div>
-
-<!-- popup -->
-<div class="popup" id="popup">
-  <div class="popup-box">
-    <h2 id="name"></h2>
-    <button onclick="closePop()">Đóng</button>
-  </div>
-</div>
+<!-- quỹ đạo Trái Đất -->
+<div class="orbit orbit-earth"></div>
 
 <script>
-// sao nền
-for(let i=0;i<120;i++){
- let s=document.createElement("div");
- s.className="star";
- s.style.top=Math.random()*100+"%";
- s.style.left=Math.random()*100+"%";
- document.body.appendChild(s);
+// tạo sao
+for (let i = 0; i < 120; i++) {
+  let s = document.createElement("div");
+  s.className = "star";
+  s.style.top = Math.random()*100+"%";
+  s.style.left = Math.random()*100+"%";
+  document.body.appendChild(s);
 }
 
-function enterSolar(){
- document.body.classList.add("space-mode");
-}
+// chuyển cảnh
+function enterSolar() {
+  document.body.classList.add("space-mode");
 
-function show(n){
- document.getElementById("name").innerText=n;
- document.getElementById("popup").style.display="flex";
-}
-
-function closePop(){
- document.getElementById("popup").style.display="none";
+  // cho Trái Đất quay quanh Mặt Trời sau khi vào
+  setTimeout(()=>{
+    document.querySelector(".earth").style.animation = "spin 10s linear infinite";
+  }, 1200);
 }
 </script>
 
 </body>
-    </html>
+</html>
