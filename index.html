@@ -13,15 +13,14 @@ body {
   font-family: Arial;
 }
 
-/* ⭐ sao đẹp hơn */
+/* ⭐ sao */
 .star {
   position: absolute;
   border-radius: 50%;
   background: white;
-  animation: blink 2s infinite;
+  animation: blink infinite;
   z-index: 1;
 }
-
 @keyframes blink {
   0%,100% { opacity: 1; }
   50% { opacity: 0.2; }
@@ -41,6 +40,7 @@ body {
   transition: 1.2s ease;
   z-index: 5;
   box-shadow: 0 0 50px #00ccff;
+  will-change: transform;
 }
 
 /* tiêu đề */
@@ -67,7 +67,7 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 1s;
-  z-index: 4; /* trên sao */
+  z-index: 4;
   box-shadow: 0 0 80px orange;
 }
 
@@ -111,7 +111,7 @@ body {
 
 /* vào hệ */
 .space-mode .earth {
-  transform: translate(80px, -80px) scale(0.1); /* mượt hơn */
+  transform: translate(80px, -80px) scale(0.1);
   box-shadow: none;
 }
 
@@ -151,7 +151,7 @@ body {
 <div class="orbit orbit8"><div class="planet" style="width:14px;height:14px;background:#3366ff;"></div></div>
 
 <script>
-// ⭐ tạo sao đẹp hơn
+// ⭐ tạo sao
 for (let i = 0; i < 180; i++) {
   let s = document.createElement("div");
   s.className = "star";
@@ -168,7 +168,7 @@ for (let i = 0; i < 180; i++) {
   document.body.appendChild(s);
 }
 
-// 🚀 chuyển cảnh mượt hơn
+// 🚀 vào hệ
 function enterSolar() {
   document.body.classList.add("space-mode");
 
@@ -195,24 +195,38 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   let endY = e.changedTouches[0].clientY;
-  if (endY - startY > 100) resetView();
+  if (endY - startY > 100) reverseToHome();
 });
 
-// 🔄 reset
-function resetView() {
-  document.body.classList.remove("space-mode");
-
+// 🔄 quay lại mượt
+function reverseToHome() {
   const earth = document.querySelector(".earth");
+  const orbit3 = document.querySelector(".orbit3");
+
+  orbit3.style.animation = "none";
+
+  const rect = earth.getBoundingClientRect();
+
   document.body.appendChild(earth);
 
-  earth.style.width = "160px";
-  earth.style.height = "160px";
-  earth.style.top = "50%";
-  earth.style.left = "50%";
-  earth.style.transform = "translate(-50%, -50%)";
-  earth.style.boxShadow = "0 0 50px #00ccff";
+  earth.style.left = rect.left + "px";
+  earth.style.top = rect.top + "px";
+  earth.style.position = "absolute";
 
-  document.querySelector(".orbit3").style.animation = "none";
+  setTimeout(() => {
+    earth.style.transition = "1s ease";
+    earth.style.left = "50%";
+    earth.style.top = "50%";
+    earth.style.transform = "translate(-50%, -50%) scale(1)";
+  }, 50);
+
+  setTimeout(() => {
+    document.body.classList.remove("space-mode");
+
+    earth.style.width = "160px";
+    earth.style.height = "160px";
+    earth.style.boxShadow = "0 0 50px #00ccff";
+  }, 1100);
 }
 </script>
 
