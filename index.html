@@ -109,9 +109,8 @@ body {
 .orbit7 { width:450px;height:450px;animation:spin 18s linear infinite;}
 .orbit8 { width:510px;height:510px;animation:spin 20s linear infinite;}
 
-/* vào hệ */
+/* vào hệ (ĐÃ FIX) */
 .space-mode .earth {
-  transform: translate(80px, -80px) scale(0.1);
   box-shadow: none;
 }
 
@@ -198,7 +197,7 @@ function enterSolar() {
 
     earth.style.left = "100%";
     earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%) scale(1)";
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)"; // ✅ giữ nhỏ
 
     orbit3.style.animation = "spin 8s linear infinite";
   }, 1100);
@@ -221,24 +220,20 @@ function reverseToHome() {
   const earth = document.querySelector(".earth");
   const orbit3 = document.querySelector(".orbit3");
 
-  // dừng quay
   orbit3.style.animation = "none";
 
-  // lấy vị trí hiện tại
   const rect = earth.getBoundingClientRect();
 
-  // đưa ra body nhưng giữ vị trí
   document.body.appendChild(earth);
 
   earth.style.position = "absolute";
   earth.style.left = rect.left + "px";
   earth.style.top = rect.top + "px";
 
-  // ⚠️ GIỮ NGUYÊN SCALE NHỎ
+  // giữ nhỏ
   earth.style.transform = "translate(-50%, -50%) scale(0.1)";
 
   setTimeout(() => {
-    // 🌍 bay về giữa nhưng vẫn nhỏ
     earth.style.transition = "1s ease";
     earth.style.left = "50%";
     earth.style.top = "50%";
@@ -246,16 +241,15 @@ function reverseToHome() {
   }, 50);
 
   setTimeout(() => {
-    // tắt space-mode
     document.body.classList.remove("space-mode");
 
-    // 🌍 PHÓNG TO SAU KHI ĐÃ VỀ GIỮA
+    // phóng to sau cùng
     earth.style.transform = "translate(-50%, -50%) scale(1)";
     earth.style.width = "160px";
     earth.style.height = "160px";
     earth.style.boxShadow = "0 0 50px #00ccff";
   }, 1100);
-  }
+}
 </script>
 
 </body>
