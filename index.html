@@ -13,15 +13,19 @@ body {
   font-family: Arial;
 }
 
-/* ⭐ sao */
+/* ⭐ sao đẹp hơn */
 .star {
   position: absolute;
-  width: 2px;
-  height: 2px;
+  border-radius: 50%;
   background: white;
   animation: blink 2s infinite;
+  z-index: 1;
 }
-@keyframes blink {50%{opacity:0.2;}}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
 
 /* 🌍 Trái Đất */
 .earth {
@@ -36,7 +40,7 @@ body {
   cursor: pointer;
   transition: 1.2s ease;
   z-index: 5;
-  box-shadow: 0 0 40px #00ccff;
+  box-shadow: 0 0 50px #00ccff;
 }
 
 /* tiêu đề */
@@ -63,7 +67,8 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 1s;
-  box-shadow: 0 0 60px orange;
+  z-index: 4; /* trên sao */
+  box-shadow: 0 0 80px orange;
 }
 
 /* 🪐 orbit */
@@ -76,6 +81,7 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 1s;
+  z-index: 3;
 }
 
 /* hành tinh */
@@ -103,10 +109,9 @@ body {
 .orbit7 { width:450px;height:450px;animation:spin 18s linear infinite;}
 .orbit8 { width:510px;height:510px;animation:spin 20s linear infinite;}
 
-/* khi vào hệ */
+/* vào hệ */
 .space-mode .earth {
-  width: 14px;
-  height: 14px;
+  transform: translate(80px, -80px) scale(0.1); /* mượt hơn */
   box-shadow: none;
 }
 
@@ -135,7 +140,7 @@ body {
 
 <div class="sun"></div>
 
-<!-- 🪐 hệ mặt trời -->
+<!-- 🪐 hệ -->
 <div class="orbit orbit1"><div class="planet" style="width:6px;height:6px;background:gray;"></div></div>
 <div class="orbit orbit2"><div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div></div>
 <div class="orbit orbit3"></div>
@@ -146,16 +151,24 @@ body {
 <div class="orbit orbit8"><div class="planet" style="width:14px;height:14px;background:#3366ff;"></div></div>
 
 <script>
-// ⭐ tạo sao
-for (let i = 0; i < 120; i++) {
+// ⭐ tạo sao đẹp hơn
+for (let i = 0; i < 180; i++) {
   let s = document.createElement("div");
   s.className = "star";
+
+  let size = Math.random() * 3;
+  s.style.width = size + "px";
+  s.style.height = size + "px";
+
   s.style.top = Math.random()*100+"%";
   s.style.left = Math.random()*100+"%";
+
+  s.style.animationDuration = (1 + Math.random()*2) + "s";
+
   document.body.appendChild(s);
 }
 
-// 🚀 vào hệ mặt trời
+// 🚀 chuyển cảnh mượt hơn
 function enterSolar() {
   document.body.classList.add("space-mode");
 
@@ -167,13 +180,13 @@ function enterSolar() {
 
     earth.style.left = "100%";
     earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%)";
+    earth.style.transform = "translate(-50%, -50%) scale(1)";
 
     orbit3.style.animation = "spin 8s linear infinite";
-  }, 1000);
+  }, 900);
 }
 
-// 👆 vuốt xuống để quay lại
+// 👆 vuốt xuống
 let startY = 0;
 
 document.addEventListener("touchstart", e => {
@@ -182,13 +195,10 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   let endY = e.changedTouches[0].clientY;
-
-  if (endY - startY > 100) {
-    resetView();
-  }
+  if (endY - startY > 100) resetView();
 });
 
-// 🔄 reset về ban đầu
+// 🔄 reset
 function resetView() {
   document.body.classList.remove("space-mode");
 
@@ -200,11 +210,11 @@ function resetView() {
   earth.style.top = "50%";
   earth.style.left = "50%";
   earth.style.transform = "translate(-50%, -50%)";
-  earth.style.boxShadow = "0 0 40px #00ccff";
+  earth.style.boxShadow = "0 0 50px #00ccff";
 
   document.querySelector(".orbit3").style.animation = "none";
 }
 </script>
 
 </body>
-  </html>
+</html>
