@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vũ Trụ Của Bé</title>
 
 <style>
@@ -14,13 +15,14 @@ body {
     text-align: center;
 }
 
-/* Sao lấp lánh */
+/* Sao */
 .star {
     position: absolute;
     width: 2px;
     height: 2px;
     background: white;
     animation: blink 2s infinite;
+    z-index: 1;
 }
 
 @keyframes blink {
@@ -41,6 +43,7 @@ body {
     box-shadow: 0 0 40px #00aaff;
     cursor: pointer;
     transition: 0.3s;
+    z-index: 2;
 }
 
 .earth:hover {
@@ -57,6 +60,17 @@ body {
     font-weight: bold;
     text-shadow: 0 0 10px #00aaff;
     pointer-events: none;
+    z-index: 3;
+}
+
+/* Hiệu ứng zoom */
+.zoom {
+    animation: zoomIn 1s forwards;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(1); }
+    to { transform: scale(1.5); }
 }
 </style>
 </head>
@@ -67,7 +81,7 @@ body {
 <div class="title">Vũ Trụ Của Bé</div>
 
 <script>
-// tạo sao random
+// Tạo sao
 for (let i = 0; i < 120; i++) {
     let star = document.createElement("div");
     star.className = "star";
@@ -77,9 +91,13 @@ for (let i = 0; i < 120; i++) {
     document.body.appendChild(star);
 }
 
-// click vào trái đất
+// Click vào Trái Đất
 function enterSolar() {
-    alert("🚀 Đang vào Hệ Mặt Trời...");
+    document.body.classList.add("zoom");
+
+    setTimeout(() => {
+        alert("🚀 Đang vào Hệ Mặt Trời...");
+    }, 800);
 }
 </script>
 
