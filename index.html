@@ -1,120 +1,87 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vũ Trụ Của Bé</title>
-    <style>
-        /* 1. Nền không gian có chiều sâu từ code trước */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            /* Kết hợp màu đen sâu và xanh đen ở đáy */
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-        }
+<meta charset="UTF-8">
+<title>Vũ Trụ Của Bé</title>
 
-        /* 2. Lớp sao lấp lánh (Dùng thủ thuật box-shadow để tạo nhiều sao) */
-        .stars {
-            width: 1.5px;
-            height: 1.5px;
-            background: transparent;
-            /* Tạo 1 list các tọa độ sao ngẫu nhiên */
-            box-shadow: 
-                25vw 10vh #FFF, 75vw 20vh #FFF, 50vw 50vh #FFF, 
-                10vw 80vh #FFF, 90vw 90vh #FFF, 30vw 30vh #EEE,
-                60vw 15vh #FFF, 15vw 45vh #FFF, 85vw 5vh #FFF,
-                40vw 70vh #FFF, 20vw 25vh #FFF, 80vw 60vh #EEE,
-                5vw 55vh #FFF, 95vw 35vh #FFF, 45vw 15vh #FFF,
-                65vw 85vh #FFF, 35vw 95vh #FFF, 55vw 40vh #FFF;
-            border-radius: 50%;
-            animation: twinkle 3s infinite ease-in-out;
-        }
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #000010, #000000);
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+}
 
-        /* Lớp sao nhỏ li ti tạo cảm giác xa xăm */
-        .stars-tiny {
-            width: 1px;
-            height: 1px;
-            box-shadow: 
-                12vw 12vh #FFF, 88vw 44vh #FFF, 33vw 66vh #FFF,
-                77vw 33vh #FFF, 22vw 77vh #FFF, 55vw 22vh #EEE;
-            animation: twinkle 5s infinite reverse;
-        }
+/* Sao lấp lánh */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: blink 2s infinite;
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
+@keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
 
-        /* 3. Chữ tiêu đề tạm thời */
-        .title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
-    </style>
+/* Trái Đất */
+.earth {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg') no-repeat center/cover;
+    box-shadow: 0 0 40px #00aaff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.earth:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Tiêu đề */
+.title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00aaff;
+    pointer-events: none;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="stars"></div>
-    <div class="stars-tiny"></div>
+<div class="earth" onclick="enterSolar()"></div>
+<div class="title">Vũ Trụ Của Bé</div>
 
-    <div class="title">
-        <h1 style="margin: 0; font-size: 2em;">VŨ TRỤ CỦA BÉ</h1>
-        <p style="opacity: 0.7;">✨ Đang khởi tạo không gian ✨</p>
-    </div>
+<script>
+// tạo sao random
+for (let i = 0; i < 120; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.animationDuration = (Math.random() * 2 + 1) + "s";
+    document.body.appendChild(star);
+}
 
-</body>
-</html>
-animation: twinkle 3s infinite ease-in-out;
-        }
-
-        /* Thêm một lớp sao nhỏ hơn để tạo chiều sâu */
-        .stars-small {
-            width: 1px;
-            height: 1px;
-            background: white;
-            box-shadow: 
-                10vw 15vh white, 30vw 45vh white, 70vw 65vh white, 
-                25vw 80vh white, 55vw 5vh white, 85vw 35vh white,
-                12vw 92vh white, 92vw 88vh white, 33vw 12vh white;
-            position: absolute;
-            top: 0; left: 0;
-            opacity: 0.5;
-            animation: twinkle 5s infinite reverse;
-        }
-
-        /* 3. Hiệu ứng lấp lánh */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* 4. Trái Đất tạm thời để bạn thấy vị trí trung tâm */
-        .earth-placeholder {
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            z-index: 10;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="stars-static"></div>
-    <div class="stars-small"></div>
-
-    <div class="earth-placeholder">
-        <h1 style="font-size: 24px;">VŨ TRỤ CỦA BÉ</h1>
-        <p>🌍<br>(Đang chờ Trái Đất xuất hiện...)</p>
-    </div>
+// click vào trái đất
+function enterSolar() {
+    alert("🚀 Đang vào Hệ Mặt Trời...");
+}
+</script>
 
 </body>
 </html>
