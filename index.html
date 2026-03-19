@@ -172,10 +172,28 @@ for (let i = 0; i < 180; i++) {
 function enterSolar() {
   document.body.classList.add("space-mode");
 
-  setTimeout(() => {
-    const earth = document.querySelector(".earth");
-    const orbit3 = document.querySelector(".orbit3");
+  const earth = document.querySelector(".earth");
+  const orbit3 = document.querySelector(".orbit3");
 
+  const orbitRect = orbit3.getBoundingClientRect();
+
+  const targetX = orbitRect.left + orbitRect.width;
+  const targetY = orbitRect.top + orbitRect.height / 2;
+
+  const rect = earth.getBoundingClientRect();
+
+  earth.style.position = "absolute";
+  earth.style.left = rect.left + "px";
+  earth.style.top = rect.top + "px";
+
+  setTimeout(() => {
+    earth.style.transition = "1s ease";
+    earth.style.left = targetX + "px";
+    earth.style.top = targetY + "px";
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
+  }, 50);
+
+  setTimeout(() => {
     orbit3.appendChild(earth);
 
     earth.style.left = "100%";
@@ -183,7 +201,7 @@ function enterSolar() {
     earth.style.transform = "translate(-50%, -50%) scale(1)";
 
     orbit3.style.animation = "spin 8s linear infinite";
-  }, 900);
+  }, 1100);
 }
 
 // 👆 vuốt xuống
@@ -203,31 +221,41 @@ function reverseToHome() {
   const earth = document.querySelector(".earth");
   const orbit3 = document.querySelector(".orbit3");
 
+  // dừng quay
   orbit3.style.animation = "none";
 
+  // lấy vị trí hiện tại
   const rect = earth.getBoundingClientRect();
 
+  // đưa ra body nhưng giữ vị trí
   document.body.appendChild(earth);
 
+  earth.style.position = "absolute";
   earth.style.left = rect.left + "px";
   earth.style.top = rect.top + "px";
-  earth.style.position = "absolute";
+
+  // ⚠️ GIỮ NGUYÊN SCALE NHỎ
+  earth.style.transform = "translate(-50%, -50%) scale(0.1)";
 
   setTimeout(() => {
+    // 🌍 bay về giữa nhưng vẫn nhỏ
     earth.style.transition = "1s ease";
     earth.style.left = "50%";
     earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%) scale(1)";
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
   }, 50);
 
   setTimeout(() => {
+    // tắt space-mode
     document.body.classList.remove("space-mode");
 
+    // 🌍 PHÓNG TO SAU KHI ĐÃ VỀ GIỮA
+    earth.style.transform = "translate(-50%, -50%) scale(1)";
     earth.style.width = "160px";
     earth.style.height = "160px";
     earth.style.boxShadow = "0 0 50px #00ccff";
   }, 1100);
-}
+  }
 </script>
 
 </body>
