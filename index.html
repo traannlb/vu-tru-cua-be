@@ -9,7 +9,7 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: black;
+  background: radial-gradient(circle at center, #000010, #000000);
   font-family: Arial;
 }
 
@@ -36,6 +36,19 @@ body {
   cursor: pointer;
   transition: 1.2s ease;
   z-index: 5;
+  box-shadow: 0 0 40px #00ccff;
+}
+
+/* tiêu đề */
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  color: white;
+  z-index: 6;
+  transition: 1s;
 }
 
 /* ☀️ Mặt Trời */
@@ -50,59 +63,66 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 1s;
+  box-shadow: 0 0 60px orange;
 }
 
-/* orbit */
+/* 🪐 orbit */
 .orbit {
   position: absolute;
-  border: 1px dashed rgba(255,255,255,0.2);
+  border: 1px dashed rgba(255,255,255,0.15);
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: 1s;
 }
 
-/* orbit Earth */
-.orbit-earth {
-  width: 260px;
-  height: 260px;
-  animation: spin 10s linear infinite;
+/* hành tinh */
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
 }
 
+/* quay */
 @keyframes spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 🌍 khi thành hành tinh */
+/* orbit sizes */
+.orbit1 { width:120px;height:120px;animation:spin 4s linear infinite;}
+.orbit2 { width:170px;height:170px;animation:spin 6s linear infinite;}
+.orbit3 { width:220px;height:220px;}
+.orbit4 { width:270px;height:270px;animation:spin 10s linear infinite;}
+.orbit5 { width:330px;height:330px;animation:spin 14s linear infinite;}
+.orbit6 { width:390px;height:390px;animation:spin 16s linear infinite;}
+.orbit7 { width:450px;height:450px;animation:spin 18s linear infinite;}
+.orbit8 { width:510px;height:510px;animation:spin 20s linear infinite;}
+
+/* khi vào hệ */
 .space-mode .earth {
   width: 14px;
   height: 14px;
-  top: 50%;
-  left: calc(50% + 130px); /* nằm trên quỹ đạo */
-  transform: translate(-50%, -50%);
   box-shadow: none;
 }
 
-/* bật hệ mặt trời */
-.space-mode .sun {
-  opacity: 1;
-}
+.space-mode .sun { opacity: 1; }
+.space-mode .orbit { opacity: 1; }
+.space-mode .title { opacity: 0; }
 
-/* tiêu đề */
-.title {
+/* hint */
+.hint {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
   color: white;
-  font-size: 28px;
-  z-index: 6;
-  transition: 1s;
-}
-
-.space-mode .title {
-  opacity: 0;
+  opacity: 0.5;
 }
 </style>
 </head>
@@ -111,14 +131,22 @@ body {
 
 <div class="earth" onclick="enterSolar()"></div>
 <div class="title">Vũ Trụ Của Bé</div>
+<div class="hint">⬇ Vuốt xuống để quay lại</div>
 
 <div class="sun"></div>
 
-<!-- quỹ đạo Trái Đất -->
-<div class="orbit orbit-earth"></div>
+<!-- 🪐 hệ mặt trời -->
+<div class="orbit orbit1"><div class="planet" style="width:6px;height:6px;background:gray;"></div></div>
+<div class="orbit orbit2"><div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div></div>
+<div class="orbit orbit3"></div>
+<div class="orbit orbit4"><div class="planet" style="width:8px;height:8px;background:red;"></div></div>
+<div class="orbit orbit5"><div class="planet" style="width:18px;height:18px;background:orange;"></div></div>
+<div class="orbit orbit6"><div class="planet" style="width:16px;height:16px;background:#d2b48c;"></div></div>
+<div class="orbit orbit7"><div class="planet" style="width:14px;height:14px;background:#66ccff;"></div></div>
+<div class="orbit orbit8"><div class="planet" style="width:14px;height:14px;background:#3366ff;"></div></div>
 
 <script>
-// tạo sao
+// ⭐ tạo sao
 for (let i = 0; i < 120; i++) {
   let s = document.createElement("div");
   s.className = "star";
@@ -127,16 +155,56 @@ for (let i = 0; i < 120; i++) {
   document.body.appendChild(s);
 }
 
-// chuyển cảnh
+// 🚀 vào hệ mặt trời
 function enterSolar() {
   document.body.classList.add("space-mode");
 
-  // cho Trái Đất quay quanh Mặt Trời sau khi vào
-  setTimeout(()=>{
-    document.querySelector(".earth").style.animation = "spin 10s linear infinite";
-  }, 1200);
+  setTimeout(() => {
+    const earth = document.querySelector(".earth");
+    const orbit3 = document.querySelector(".orbit3");
+
+    orbit3.appendChild(earth);
+
+    earth.style.left = "100%";
+    earth.style.top = "50%";
+    earth.style.transform = "translate(-50%, -50%)";
+
+    orbit3.style.animation = "spin 8s linear infinite";
+  }, 1000);
+}
+
+// 👆 vuốt xuống để quay lại
+let startY = 0;
+
+document.addEventListener("touchstart", e => {
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+  let endY = e.changedTouches[0].clientY;
+
+  if (endY - startY > 100) {
+    resetView();
+  }
+});
+
+// 🔄 reset về ban đầu
+function resetView() {
+  document.body.classList.remove("space-mode");
+
+  const earth = document.querySelector(".earth");
+  document.body.appendChild(earth);
+
+  earth.style.width = "160px";
+  earth.style.height = "160px";
+  earth.style.top = "50%";
+  earth.style.left = "50%";
+  earth.style.transform = "translate(-50%, -50%)";
+  earth.style.boxShadow = "0 0 40px #00ccff";
+
+  document.querySelector(".orbit3").style.animation = "none";
 }
 </script>
 
 </body>
-</html>
+  </html>
