@@ -5,14 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vũ Trụ Của Bé</title>
 
+<!-- Font hoạt hình -->
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+
 <style>
 body {
     margin: 0;
     overflow: hidden;
     background: radial-gradient(circle at center, #000010, #000000);
-    font-family: Arial, sans-serif;
+    font-family: 'Baloo 2', cursive;
     color: white;
-    text-align: center;
 }
 
 /* Sao */
@@ -26,28 +28,23 @@ body {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 1; }
+    50% { opacity: 0.2; }
 }
 
-/* Trái Đất */
+/* Trái Đất (trừu tượng) */
 .earth {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg') no-repeat center/cover;
-    box-shadow: 0 0 40px #00aaff;
+    background: radial-gradient(circle at 30% 30%, #4fd1ff, #003366);
+    box-shadow: 0 0 40px #00ccff;
     cursor: pointer;
-    transition: 0.3s;
-    z-index: 2;
-}
-
-.earth:hover {
-    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 3;
+    transition: all 1s ease;
 }
 
 /* Tiêu đề */
@@ -56,21 +53,48 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 28px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #00aaff;
+    font-size: 32px;
+    text-shadow: 0 0 15px #00ccff;
+    z-index: 4;
     pointer-events: none;
-    z-index: 3;
 }
 
-/* Hiệu ứng zoom */
-.zoom {
-    animation: zoomIn 1s forwards;
+/* Mặt Trời */
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffcc00, #ff6600);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: 1s;
+    z-index: 2;
 }
 
-@keyframes zoomIn {
-    from { transform: scale(1); }
-    to { transform: scale(1.5); }
+/* Khi vào hệ mặt trời */
+.space-mode .earth {
+    transform: translate(200px, -100px) scale(0.3);
+}
+
+.space-mode .title {
+    opacity: 0;
+}
+
+.space-mode .sun {
+    opacity: 1;
+}
+
+/* Vuốt xuống hint */
+.hint {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.5;
 }
 </style>
 </head>
@@ -79,26 +103,38 @@ body {
 
 <div class="earth" onclick="enterSolar()"></div>
 <div class="title">Vũ Trụ Của Bé</div>
+<div class="sun"></div>
+<div class="hint">⬇ Vuốt xuống để quay lại</div>
 
 <script>
-// Tạo sao
+// tạo sao
 for (let i = 0; i < 120; i++) {
     let star = document.createElement("div");
     star.className = "star";
     star.style.top = Math.random() * 100 + "%";
     star.style.left = Math.random() * 100 + "%";
-    star.style.animationDuration = (Math.random() * 2 + 1) + "s";
     document.body.appendChild(star);
 }
 
-// Click vào Trái Đất
+// click vào Trái Đất
 function enterSolar() {
-    document.body.classList.add("zoom");
-
-    setTimeout(() => {
-        alert("🚀 Đang vào Hệ Mặt Trời...");
-    }, 800);
+    document.body.classList.add("space-mode");
 }
+
+// vuốt xuống để quay lại
+let startY = 0;
+
+document.addEventListener("touchstart", e => {
+    startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+    let endY = e.changedTouches[0].clientY;
+
+    if (endY - startY > 100) {
+        document.body.classList.remove("space-mode");
+    }
+});
 </script>
 
 </body>
