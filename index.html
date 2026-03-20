@@ -9,12 +9,14 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle at center, #000010, #000000);
+  background: radial-gradient(circle at center, #000000, #000000);
   font-family: Arial;
 }
 
 /* ⭐ sao */
 .star {
+  background: white;
+  box-shadow: 0 0 6px white;
   position: absolute;
   border-radius: 50%;
   background: white;
@@ -72,6 +74,7 @@ body {
 
 /* 🪐 orbit elip */
 .orbit {
+  border: 1.5px dashed rgba(255,255,255,0.35);
   position: absolute;
   border: 1px dashed rgba(255,255,255,0.15);
   border-radius: 50% / 40%;
@@ -89,15 +92,15 @@ body {
   width: 100%;
   height: 100%;
   animation: spin linear infinite;
+  transform-origin: center;
 }
 
 /* hành tinh */
 .planet {
   position: absolute;
   top: 50%;
-  left: 100%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
+  left: 50%;
+  transform: translate( calc(var(--rx)), 0 );
 }
 
 /* 🌍 trái đất khi vào quỹ đạo */
@@ -118,14 +121,14 @@ body {
 }
 
 /* kích thước elip */
-.orbit1 { width: 20vw; height: 10vw; }
-.orbit2 { width: 28vw; height: 14vw; }
-.orbit3 { width: 42vw; height: 21vw; }
-.orbit4 { width: 50vw; height: 25vw; }
-.orbit5 { width: 60vw; height: 30vw; }
-.orbit6 { width: 70vw; height: 35vw; }
-.orbit7 { width: 80vw; height: 40vw; }
-.orbit8 { width: 90vw; height: 45vw; }
+.orbit1 { width: 20vw; height: 10vw; --rx: 10vw; }
+.orbit2 { width: 28vw; height: 14vw; --rx: 14vw; }
+.orbit3 { width: 42vw; height: 21vw; --rx: 21vw; }
+.orbit4 { width: 50vw; height: 25vw; --rx: 25vw; }
+.orbit5 { width: 60vw; height: 30vw; --rx: 30vw; }
+.orbit6 { width: 70vw; height: 35vw; --rx: 35vw; }
+.orbit7 { width: 80vw; height: 40vw; --rx: 40vw; }
+.orbit8 { width: 90vw; height: 45vw; --rx: 45vw; }
 
 /* tốc độ quay */
 .orbit1 .planet-wrap { animation-duration: 4s; }
@@ -192,11 +195,28 @@ function enterSolar() {
   document.body.classList.add("space-mode");
 
   const earth = document.querySelector(".earth");
-  const wrap = document.querySelector(".orbit3 .planet-wrap");
+  const orbit3 = document.querySelector(".orbit3");
+  const wrap = orbit3.querySelector(".planet-wrap");
+
+  const rect = earth.getBoundingClientRect();
+  const orbitRect = orbit3.getBoundingClientRect();
+
+  earth.style.position = "absolute";
+  earth.style.left = rect.left + "px";
+  earth.style.top = rect.top + "px";
+
+  setTimeout(() => {
+    earth.style.transition = "1s ease";
+    earth.style.left = (orbitRect.left + orbitRect.width) + "px";
+    earth.style.top = (orbitRect.top + orbitRect.height/2) + "px";
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
+  }, 50);
 
   setTimeout(() => {
     wrap.appendChild(earth);
-  }, 500);
+    earth.style.left = "50%";
+    earth.style.top = "50%";
+  }, 1100);
 }
 
 // 👆 vuốt xuống để quay lại
