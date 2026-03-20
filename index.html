@@ -26,7 +26,7 @@ body {
   50% { opacity: 0.3; }
 }
 
-/* 🌍 Trái Đất */
+/* 🌍 Trái Đất (ở giữa ban đầu) */
 .earth {
   position: absolute;
   top: 50%;
@@ -37,7 +37,7 @@ body {
   background: radial-gradient(circle, #4fd1ff, #003366);
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: 1.2s ease;
+  transition: 1s ease;
   z-index: 5;
   box-shadow: 0 0 50px #00ccff;
 }
@@ -92,7 +92,7 @@ body {
 }
 
 /* hành tinh */
-.planet, .earth {
+.planet {
   position: absolute;
   top: 50%;
   left: 100%;
@@ -127,12 +127,6 @@ body {
 .orbit8 .planet-wrap { animation-duration: 20s; }
 
 /* vào hệ */
-.space-mode .earth {
-  width: 12px;
-  height: 12px;
-  box-shadow: none;
-}
-
 .space-mode .sun { opacity: 1; }
 .space-mode .orbit { opacity: 1; }
 .space-mode .title { opacity: 0; }
@@ -152,6 +146,7 @@ body {
 
 <body>
 
+<div class="earth" onclick="enterSolar()"></div>
 <div class="title">Vũ Trụ Của Bé</div>
 <div class="hint">⬇ Vuốt xuống để quay lại</div>
 
@@ -171,9 +166,7 @@ body {
 </div>
 
 <div class="orbit orbit3">
-  <div class="planet-wrap">
-    <div class="earth" onclick="enterSolar()"></div>
-  </div>
+  <div class="planet-wrap"></div>
 </div>
 
 <div class="orbit orbit4">
@@ -211,25 +204,44 @@ body {
 for (let i = 0; i < 200; i++) {
   let s = document.createElement("div");
   s.className = "star";
-
   let size = Math.random() * 2.5;
   s.style.width = size + "px";
   s.style.height = size + "px";
-
   s.style.top = Math.random()*100+"%";
   s.style.left = Math.random()*100+"%";
-
   s.style.animationDuration = (1 + Math.random()*2) + "s";
-
   document.body.appendChild(s);
 }
 
 // 🚀 vào hệ
 function enterSolar() {
   document.body.classList.add("space-mode");
+
+  const earth = document.querySelector(".earth");
+  const orbit3 = document.querySelector(".orbit3");
+  const wrap = orbit3.querySelector(".planet-wrap");
+
+  const rect = earth.getBoundingClientRect();
+
+  earth.style.position = "absolute";
+  earth.style.left = rect.left + "px";
+  earth.style.top = rect.top + "px";
+
+  setTimeout(() => {
+    earth.style.transition = "1s ease";
+    earth.style.left = (orbit3.getBoundingClientRect().left + orbit3.offsetWidth) + "px";
+    earth.style.top = (orbit3.getBoundingClientRect().top + orbit3.offsetHeight/2) + "px";
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
+  }, 50);
+
+  setTimeout(() => {
+    wrap.appendChild(earth);
+    earth.style.left = "100%";
+    earth.style.top = "50%";
+  }, 1100);
 }
 
-// 👆 vuốt
+// 👆 vuốt xuống để quay lại
 let startY = 0;
 
 document.addEventListener("touchstart", e => {
@@ -239,10 +251,10 @@ document.addEventListener("touchstart", e => {
 document.addEventListener("touchend", e => {
   let endY = e.changedTouches[0].clientY;
   if (endY - startY > 100) {
-    document.body.classList.remove("space-mode");
+    location.reload();
   }
 });
 </script>
 
 </body>
-      </html>
+</html>
