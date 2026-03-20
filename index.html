@@ -147,7 +147,6 @@ body {
 
 <body>
 
-<div class="earth" onclick="enterSolar()"></div>
 <div class="title">Vũ Trụ Của Bé</div>
 <div class="hint">⬇ Vuốt xuống để quay lại</div>
 
@@ -166,7 +165,11 @@ body {
   </div>
 </div>
 
-<div class="orbit orbit3"></div>
+<div class="orbit orbit3">
+  <div class="planet-wrap">
+    <div class="earth" onclick="enterSolar()"></div>
+  </div>
+</div>
 
 <div class="orbit orbit4">
   <div class="planet-wrap">
@@ -221,7 +224,7 @@ function enterSolar() {
   document.body.classList.add("space-mode");
 
   const earth = document.querySelector(".earth");
-  const orbit3 = document.querySelector(".orbit3");
+  const wrap = orbit3.querySelector(".planet-wrap");
 
   const orbitRect = orbit3.getBoundingClientRect();
 
@@ -242,7 +245,7 @@ function enterSolar() {
   }, 50);
 
   setTimeout(() => {
-    orbit3.appendChild(earth);
+    wrap.appendChild(earth);
     earth.style.left = "100%";
     earth.style.top = "50%";
     earth.style.transform = "translate(-50%, -50%) scale(0.1)";
