@@ -40,7 +40,6 @@ body {
   transition: 1.2s ease;
   z-index: 5;
   box-shadow: 0 0 50px #00ccff;
-  will-change: transform;
 }
 
 /* tiêu đề */
@@ -75,7 +74,7 @@ body {
 .orbit {
   position: absolute;
   border: 1px dashed rgba(255,255,255,0.15);
-  border-radius: 50% / 40%;
+  border-radius: 50% / 35%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -99,7 +98,7 @@ body {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* orbit sizes */
+/* quỹ đạo elip responsive */
 .orbit1 { width: 20vw; height: 10vw; animation:spin 4s linear infinite;}
 .orbit2 { width: 28vw; height: 14vw; animation:spin 6s linear infinite;}
 .orbit3 { width: 36vw; height: 18vw;}
@@ -109,11 +108,10 @@ body {
 .orbit7 { width: 74vw; height: 37vw; animation:spin 18s linear infinite;}
 .orbit8 { width: 84vw; height: 42vw; animation:spin 20s linear infinite;}
 
-/* vào hệ (ĐÃ FIX) */
+/* vào hệ */
 .space-mode .earth {
   box-shadow: none;
 }
-
 .space-mode .sun { opacity: 1; }
 .space-mode .orbit { opacity: 1; }
 .space-mode .title { opacity: 0; }
@@ -197,7 +195,7 @@ function enterSolar() {
 
     earth.style.left = "100%";
     earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%) scale(0.1)"; // ✅ giữ nhỏ
+    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
 
     orbit3.style.animation = "spin 8s linear infinite";
   }, 1100);
@@ -215,15 +213,8 @@ document.addEventListener("touchend", e => {
   if (endY - startY > 100) reverseToHome();
 });
 
-// 🔄 quay lại mượt
+// 🔄 quay lại
 function reverseToHome() {
-  window.addEventListener("resize", () => {
-  document.body.style.zoom = window.innerWidth / 400;
-});
-
-window.onload = () => {
-  document.body.style.zoom = window.innerWidth / 400;
-};
   const earth = document.querySelector(".earth");
   const orbit3 = document.querySelector(".orbit3");
 
@@ -237,7 +228,6 @@ window.onload = () => {
   earth.style.left = rect.left + "px";
   earth.style.top = rect.top + "px";
 
-  // giữ nhỏ
   earth.style.transform = "translate(-50%, -50%) scale(0.1)";
 
   setTimeout(() => {
@@ -250,13 +240,21 @@ window.onload = () => {
   setTimeout(() => {
     document.body.classList.remove("space-mode");
 
-    // phóng to sau cùng
     earth.style.transform = "translate(-50%, -50%) scale(1)";
     earth.style.width = "160px";
     earth.style.height = "160px";
     earth.style.boxShadow = "0 0 50px #00ccff";
   }, 1100);
 }
+
+// 📱 auto fit
+window.addEventListener("resize", () => {
+  document.body.style.zoom = window.innerWidth / 400;
+});
+
+window.onload = () => {
+  document.body.style.zoom = window.innerWidth / 400;
+};
 </script>
 
 </body>
