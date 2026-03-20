@@ -224,8 +224,8 @@ function enterSolar() {
   document.body.classList.add("space-mode");
 
   const earth = document.querySelector(".earth");
-  const wrap = orbit3.querySelector(".planet-wrap");
-
+const orbit3 = document.querySelector(".orbit3"); // ⭐ THÊM DÒNG NÀY
+const wrap = orbit3.querySelector(".planet-wrap");
   const orbitRect = orbit3.getBoundingClientRect();
 
   const targetX = orbitRect.left + orbitRect.width;
