@@ -70,11 +70,11 @@ body {
   box-shadow: 0 0 80px orange;
 }
 
-/* 🪐 orbit */
+/* 🪐 orbit elip */
 .orbit {
   position: absolute;
   border: 1px dashed rgba(255,255,255,0.15);
-  border-radius: 50% / 35%;
+  border-radius: 50% / 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -83,35 +83,51 @@ body {
   z-index: 3;
 }
 
+/* 🌍 container quay */
+.planet-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: spin linear infinite;
+}
+
 /* hành tinh */
 .planet {
   position: absolute;
   top: 50%;
-  left: 115%;
+  left: 100%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
 }
 
 /* quay */
 @keyframes spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* quỹ đạo elip responsive */
-.orbit1 { width: 20vw; height: 10vw; animation:spin 4s linear infinite;}
-.orbit2 { width: 28vw; height: 14vw; animation:spin 6s linear infinite;}
-.orbit3 { width: 36vw; height: 18vw;}
-.orbit4 { width: 44vw; height: 22vw; animation:spin 10s linear infinite;}
-.orbit5 { width: 54vw; height: 27vw; animation:spin 14s linear infinite;}
-.orbit6 { width: 64vw; height: 32vw; animation:spin 16s linear infinite;}
-.orbit7 { width: 74vw; height: 37vw; animation:spin 18s linear infinite;}
-.orbit8 { width: 84vw; height: 42vw; animation:spin 20s linear infinite;}
+/* orbit sizes (ELIP CHUẨN) */
+.orbit1 { width: 20vw; height: 10vw; }
+.orbit2 { width: 28vw; height: 14vw; }
+.orbit3 { width: 36vw; height: 18vw; }
+.orbit4 { width: 44vw; height: 22vw; }
+.orbit5 { width: 54vw; height: 27vw; }
+.orbit6 { width: 64vw; height: 32vw; }
+.orbit7 { width: 74vw; height: 37vw; }
+.orbit8 { width: 84vw; height: 42vw; }
+
+/* tốc độ quay */
+.orbit1 .planet-wrap { animation-duration: 4s; }
+.orbit2 .planet-wrap { animation-duration: 6s; }
+.orbit3 .planet-wrap { animation-duration: 8s; }
+.orbit4 .planet-wrap { animation-duration: 10s; }
+.orbit5 .planet-wrap { animation-duration: 14s; }
+.orbit6 .planet-wrap { animation-duration: 16s; }
+.orbit7 .planet-wrap { animation-duration: 18s; }
+.orbit8 .planet-wrap { animation-duration: 20s; }
 
 /* vào hệ */
-.space-mode .earth {
-  box-shadow: none;
-}
+.space-mode .earth { box-shadow: none; }
 .space-mode .sun { opacity: 1; }
 .space-mode .orbit { opacity: 1; }
 .space-mode .title { opacity: 0; }
@@ -137,18 +153,53 @@ body {
 
 <div class="sun"></div>
 
-<!-- 🪐 hệ -->
-<div class="orbit orbit1"><div class="planet" style="width:6px;height:6px;background:gray;"></div></div>
-<div class="orbit orbit2"><div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div></div>
+<!-- 🪐 hệ (ĐÃ FIX) -->
+<div class="orbit orbit1">
+  <div class="planet-wrap">
+    <div class="planet" style="width:6px;height:6px;background:gray;"></div>
+  </div>
+</div>
+
+<div class="orbit orbit2">
+  <div class="planet-wrap">
+    <div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div>
+  </div>
+</div>
+
 <div class="orbit orbit3"></div>
-<div class="orbit orbit4"><div class="planet" style="width:8px;height:8px;background:red;"></div></div>
-<div class="orbit orbit5"><div class="planet" style="width:18px;height:18px;background:orange;"></div></div>
-<div class="orbit orbit6"><div class="planet" style="width:16px;height:16px;background:#d2b48c;"></div></div>
-<div class="orbit orbit7"><div class="planet" style="width:14px;height:14px;background:#66ccff;"></div></div>
-<div class="orbit orbit8"><div class="planet" style="width:14px;height:14px;background:#3366ff;"></div></div>
+
+<div class="orbit orbit4">
+  <div class="planet-wrap">
+    <div class="planet" style="width:8px;height:8px;background:red;"></div>
+  </div>
+</div>
+
+<div class="orbit orbit5">
+  <div class="planet-wrap">
+    <div class="planet" style="width:18px;height:18px;background:orange;"></div>
+  </div>
+</div>
+
+<div class="orbit orbit6">
+  <div class="planet-wrap">
+    <div class="planet" style="width:16px;height:16px;background:#d2b48c;"></div>
+  </div>
+</div>
+
+<div class="orbit orbit7">
+  <div class="planet-wrap">
+    <div class="planet" style="width:14px;height:14px;background:#66ccff;"></div>
+  </div>
+</div>
+
+<div class="orbit orbit8">
+  <div class="planet-wrap">
+    <div class="planet" style="width:14px;height:14px;background:#3366ff;"></div>
+  </div>
+</div>
 
 <script>
-// ⭐ tạo sao
+// ⭐ sao
 for (let i = 0; i < 180; i++) {
   let s = document.createElement("div");
   s.className = "star";
@@ -192,16 +243,13 @@ function enterSolar() {
 
   setTimeout(() => {
     orbit3.appendChild(earth);
-
     earth.style.left = "100%";
     earth.style.top = "50%";
     earth.style.transform = "translate(-50%, -50%) scale(0.1)";
-
-    orbit3.style.animation = "spin 8s linear infinite";
   }, 1100);
 }
 
-// 👆 vuốt xuống
+// 👆 vuốt
 let startY = 0;
 
 document.addEventListener("touchstart", e => {
@@ -218,8 +266,6 @@ function reverseToHome() {
   const earth = document.querySelector(".earth");
   const orbit3 = document.querySelector(".orbit3");
 
-  orbit3.style.animation = "none";
-
   const rect = earth.getBoundingClientRect();
 
   document.body.appendChild(earth);
@@ -227,34 +273,19 @@ function reverseToHome() {
   earth.style.position = "absolute";
   earth.style.left = rect.left + "px";
   earth.style.top = rect.top + "px";
-
   earth.style.transform = "translate(-50%, -50%) scale(0.1)";
 
   setTimeout(() => {
     earth.style.transition = "1s ease";
     earth.style.left = "50%";
     earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
   }, 50);
 
   setTimeout(() => {
     document.body.classList.remove("space-mode");
-
     earth.style.transform = "translate(-50%, -50%) scale(1)";
-    earth.style.width = "160px";
-    earth.style.height = "160px";
-    earth.style.boxShadow = "0 0 50px #00ccff";
   }, 1100);
 }
-
-// 📱 auto fit
-window.addEventListener("resize", () => {
-  document.body.style.zoom = window.innerWidth / 400;
-});
-
-window.onload = () => {
-  document.body.style.zoom = window.innerWidth / 400;
-};
 </script>
 
 </body>
