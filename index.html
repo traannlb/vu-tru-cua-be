@@ -26,7 +26,7 @@ body {
   50% { opacity: 0.3; }
 }
 
-/* 🌍 Trái Đất (ở giữa ban đầu) */
+/* 🌍 Trái Đất (ban đầu ở giữa) */
 .earth {
   position: absolute;
   top: 50%;
@@ -100,6 +100,17 @@ body {
   border-radius: 50%;
 }
 
+/* 🌍 trái đất khi vào quỹ đạo */
+.orbit3 .earth {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  box-shadow: none;
+}
+
 /* quay */
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -116,7 +127,7 @@ body {
 .orbit7 { width: 80vw; height: 40vw; }
 .orbit8 { width: 90vw; height: 45vw; }
 
-/* tốc độ */
+/* tốc độ quay */
 .orbit1 .planet-wrap { animation-duration: 4s; }
 .orbit2 .planet-wrap { animation-duration: 6s; }
 .orbit3 .planet-wrap { animation-duration: 8s; }
@@ -153,51 +164,14 @@ body {
 <div class="sun"></div>
 
 <!-- 🪐 hệ -->
-<div class="orbit orbit1">
-  <div class="planet-wrap">
-    <div class="planet" style="width:6px;height:6px;background:gray;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit2">
-  <div class="planet-wrap">
-    <div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit3">
-  <div class="planet-wrap"></div>
-</div>
-
-<div class="orbit orbit4">
-  <div class="planet-wrap">
-    <div class="planet" style="width:8px;height:8px;background:red;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit5">
-  <div class="planet-wrap">
-    <div class="planet" style="width:18px;height:18px;background:orange;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit6">
-  <div class="planet-wrap">
-    <div class="planet" style="width:16px;height:16px;background:#d2b48c;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit7">
-  <div class="planet-wrap">
-    <div class="planet" style="width:14px;height:14px;background:#66ccff;"></div>
-  </div>
-</div>
-
-<div class="orbit orbit8">
-  <div class="planet-wrap">
-    <div class="planet" style="width:14px;height:14px;background:#3366ff;"></div>
-  </div>
-</div>
+<div class="orbit orbit1"><div class="planet-wrap"><div class="planet" style="width:6px;height:6px;background:gray;"></div></div></div>
+<div class="orbit orbit2"><div class="planet-wrap"><div class="planet" style="width:10px;height:10px;background:#eccc9a;"></div></div></div>
+<div class="orbit orbit3"><div class="planet-wrap"></div></div>
+<div class="orbit orbit4"><div class="planet-wrap"><div class="planet" style="width:8px;height:8px;background:red;"></div></div></div>
+<div class="orbit orbit5"><div class="planet-wrap"><div class="planet" style="width:18px;height:18px;background:orange;"></div></div></div>
+<div class="orbit orbit6"><div class="planet-wrap"><div class="planet" style="width:16px;height:16px;background:#d2b48c;"></div></div></div>
+<div class="orbit orbit7"><div class="planet-wrap"><div class="planet" style="width:14px;height:14px;background:#66ccff;"></div></div></div>
+<div class="orbit orbit8"><div class="planet-wrap"><div class="planet" style="width:14px;height:14px;background:#3366ff;"></div></div></div>
 
 <script>
 // ⭐ sao
@@ -218,27 +192,11 @@ function enterSolar() {
   document.body.classList.add("space-mode");
 
   const earth = document.querySelector(".earth");
-  const orbit3 = document.querySelector(".orbit3");
-  const wrap = orbit3.querySelector(".planet-wrap");
-
-  const rect = earth.getBoundingClientRect();
-
-  earth.style.position = "absolute";
-  earth.style.left = rect.left + "px";
-  earth.style.top = rect.top + "px";
-
-  setTimeout(() => {
-    earth.style.transition = "1s ease";
-    earth.style.left = (orbit3.getBoundingClientRect().left + orbit3.offsetWidth) + "px";
-    earth.style.top = (orbit3.getBoundingClientRect().top + orbit3.offsetHeight/2) + "px";
-    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
-  }, 50);
+  const wrap = document.querySelector(".orbit3 .planet-wrap");
 
   setTimeout(() => {
     wrap.appendChild(earth);
-    earth.style.left = "100%";
-    earth.style.top = "50%";
-  }, 1100);
+  }, 500);
 }
 
 // 👆 vuốt xuống để quay lại
@@ -250,9 +208,7 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   let endY = e.changedTouches[0].clientY;
-  if (endY - startY > 100) {
-    location.reload();
-  }
+  if (endY - startY > 100) location.reload();
 });
 </script>
 
