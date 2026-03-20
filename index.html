@@ -23,7 +23,7 @@ body {
 }
 @keyframes blink {
   0%,100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  50% { opacity: 0.3; }
 }
 
 /* 🌍 Trái Đất */
@@ -67,7 +67,7 @@ body {
   opacity: 0;
   transition: 1s;
   z-index: 4;
-  box-shadow: 0 0 80px orange;
+  box-shadow: 0 0 100px orange;
 }
 
 /* 🪐 orbit elip */
@@ -80,10 +80,10 @@ body {
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: 1s;
-  z-index: 3;
+  z-index: 2;
 }
 
-/* 🌍 container quay */
+/* container quay */
 .planet-wrap {
   position: absolute;
   width: 100%;
@@ -92,7 +92,7 @@ body {
 }
 
 /* hành tinh */
-.planet {
+.planet, .earth {
   position: absolute;
   top: 50%;
   left: 100%;
@@ -106,17 +106,17 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* orbit sizes (ELIP CHUẨN) */
+/* kích thước elip */
 .orbit1 { width: 20vw; height: 10vw; }
 .orbit2 { width: 28vw; height: 14vw; }
-.orbit3 { width: 36vw; height: 18vw; }
-.orbit4 { width: 44vw; height: 22vw; }
-.orbit5 { width: 54vw; height: 27vw; }
-.orbit6 { width: 64vw; height: 32vw; }
-.orbit7 { width: 74vw; height: 37vw; }
-.orbit8 { width: 84vw; height: 42vw; }
+.orbit3 { width: 42vw; height: 21vw; }
+.orbit4 { width: 50vw; height: 25vw; }
+.orbit5 { width: 60vw; height: 30vw; }
+.orbit6 { width: 70vw; height: 35vw; }
+.orbit7 { width: 80vw; height: 40vw; }
+.orbit8 { width: 90vw; height: 45vw; }
 
-/* tốc độ quay */
+/* tốc độ */
 .orbit1 .planet-wrap { animation-duration: 4s; }
 .orbit2 .planet-wrap { animation-duration: 6s; }
 .orbit3 .planet-wrap { animation-duration: 8s; }
@@ -127,7 +127,12 @@ body {
 .orbit8 .planet-wrap { animation-duration: 20s; }
 
 /* vào hệ */
-.space-mode .earth { box-shadow: none; }
+.space-mode .earth {
+  width: 12px;
+  height: 12px;
+  box-shadow: none;
+}
+
 .space-mode .sun { opacity: 1; }
 .space-mode .orbit { opacity: 1; }
 .space-mode .title { opacity: 0; }
@@ -152,7 +157,7 @@ body {
 
 <div class="sun"></div>
 
-<!-- 🪐 hệ (ĐÃ FIX) -->
+<!-- 🪐 hệ -->
 <div class="orbit orbit1">
   <div class="planet-wrap">
     <div class="planet" style="width:6px;height:6px;background:gray;"></div>
@@ -203,11 +208,11 @@ body {
 
 <script>
 // ⭐ sao
-for (let i = 0; i < 180; i++) {
+for (let i = 0; i < 200; i++) {
   let s = document.createElement("div");
   s.className = "star";
 
-  let size = Math.random() * 3;
+  let size = Math.random() * 2.5;
   s.style.width = size + "px";
   s.style.height = size + "px";
 
@@ -222,34 +227,6 @@ for (let i = 0; i < 180; i++) {
 // 🚀 vào hệ
 function enterSolar() {
   document.body.classList.add("space-mode");
-
-  const earth = document.querySelector(".earth");
-const orbit3 = document.querySelector(".orbit3"); // ⭐ THÊM DÒNG NÀY
-const wrap = orbit3.querySelector(".planet-wrap");
-  const orbitRect = orbit3.getBoundingClientRect();
-
-  const targetX = orbitRect.left + orbitRect.width;
-  const targetY = orbitRect.top + orbitRect.height / 2;
-
-  const rect = earth.getBoundingClientRect();
-
-  earth.style.position = "absolute";
-  earth.style.left = rect.left + "px";
-  earth.style.top = rect.top + "px";
-
-  setTimeout(() => {
-    earth.style.transition = "1s ease";
-    earth.style.left = targetX + "px";
-    earth.style.top = targetY + "px";
-    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
-  }, 50);
-
-  setTimeout(() => {
-    wrap.appendChild(earth);
-    earth.style.left = "100%";
-    earth.style.top = "50%";
-    earth.style.transform = "translate(-50%, -50%) scale(0.1)";
-  }, 1100);
 }
 
 // 👆 vuốt
@@ -261,35 +238,11 @@ document.addEventListener("touchstart", e => {
 
 document.addEventListener("touchend", e => {
   let endY = e.changedTouches[0].clientY;
-  if (endY - startY > 100) reverseToHome();
-});
-
-// 🔄 quay lại
-function reverseToHome() {
-  const earth = document.querySelector(".earth");
-  const orbit3 = document.querySelector(".orbit3");
-
-  const rect = earth.getBoundingClientRect();
-
-  document.body.appendChild(earth);
-
-  earth.style.position = "absolute";
-  earth.style.left = rect.left + "px";
-  earth.style.top = rect.top + "px";
-  earth.style.transform = "translate(-50%, -50%) scale(0.1)";
-
-  setTimeout(() => {
-    earth.style.transition = "1s ease";
-    earth.style.left = "50%";
-    earth.style.top = "50%";
-  }, 50);
-
-  setTimeout(() => {
+  if (endY - startY > 100) {
     document.body.classList.remove("space-mode");
-    earth.style.transform = "translate(-50%, -50%) scale(1)";
-  }, 1100);
-}
+  }
+});
 </script>
 
 </body>
-</html>
+      </html>
