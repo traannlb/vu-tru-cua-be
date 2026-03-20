@@ -57,7 +57,7 @@ body {
 
 /* ☀️ Mặt Trời */
 .sun {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   width: 120px;
@@ -75,7 +75,7 @@ body {
 .orbit {
   position: absolute;
   border: 1px dashed rgba(255,255,255,0.15);
-  border-radius: 50%;
+  border-radius: 50% / 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -88,7 +88,7 @@ body {
 .planet {
   position: absolute;
   top: 50%;
-  left: 100%;
+  left: 115%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
 }
@@ -100,14 +100,14 @@ body {
 }
 
 /* orbit sizes */
-.orbit1 { width:120px;height:120px;animation:spin 4s linear infinite;}
-.orbit2 { width:170px;height:170px;animation:spin 6s linear infinite;}
-.orbit3 { width:220px;height:220px;}
-.orbit4 { width:270px;height:270px;animation:spin 10s linear infinite;}
-.orbit5 { width:330px;height:330px;animation:spin 14s linear infinite;}
-.orbit6 { width:390px;height:390px;animation:spin 16s linear infinite;}
-.orbit7 { width:450px;height:450px;animation:spin 18s linear infinite;}
-.orbit8 { width:510px;height:510px;animation:spin 20s linear infinite;}
+.orbit1 { width: 20vw; height: 10vw; animation:spin 4s linear infinite;}
+.orbit2 { width: 28vw; height: 14vw; animation:spin 6s linear infinite;}
+.orbit3 { width: 36vw; height: 18vw;}
+.orbit4 { width: 44vw; height: 22vw; animation:spin 10s linear infinite;}
+.orbit5 { width: 54vw; height: 27vw; animation:spin 14s linear infinite;}
+.orbit6 { width: 64vw; height: 32vw; animation:spin 16s linear infinite;}
+.orbit7 { width: 74vw; height: 37vw; animation:spin 18s linear infinite;}
+.orbit8 { width: 84vw; height: 42vw; animation:spin 20s linear infinite;}
 
 /* vào hệ (ĐÃ FIX) */
 .space-mode .earth {
@@ -217,6 +217,13 @@ document.addEventListener("touchend", e => {
 
 // 🔄 quay lại mượt
 function reverseToHome() {
+  window.addEventListener("resize", () => {
+  document.body.style.zoom = window.innerWidth / 400;
+});
+
+window.onload = () => {
+  document.body.style.zoom = window.innerWidth / 400;
+};
   const earth = document.querySelector(".earth");
   const orbit3 = document.querySelector(".orbit3");
 
